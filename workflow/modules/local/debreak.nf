@@ -13,7 +13,7 @@ process DEBREAK {
 
     conda "bioconda::debreak=1.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/debreak:1.3--h9ee0642_0' :
+        'https://depot.galaxyproject.org/singularity/debreak%3A1.3--h9ee0642_0' :
         'quay.io/repository/biocontainers/debreak:1.3--h9ee0642_0' }"
 
     input:
@@ -22,7 +22,7 @@ process DEBREAK {
 
 
     output:
-    tuple val(meta), path("*_debreak.vcf")   , emit: sv_calls
+    tuple val(meta), path("*_debreak/debreak.vcf")   , emit: sv_calls
     path "versions.yml"                    , emit: versions
 
     when:
@@ -33,7 +33,7 @@ process DEBREAK {
     debreak \
         -t $task.cpus \
 		--bam ${input} \
-        -o ${meta.id}_debreak.vcf \
+        -o ${meta.id}_debreak \
         -r ${fasta} \
 		--rescue_large_ins --rescue_dup --poa
 

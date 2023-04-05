@@ -13,7 +13,7 @@ process DYSGU {
 
     conda "bioconda::dysgu=1.3.16"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/dysgu_1.3.16--py310h0de0465_0' :
+        'https://depot.galaxyproject.org/singularity/dysgu%3A1.3.16--py310h0de0465_0' :
         'quay.io/repository/biocontainers/dysgu:1.3.16--py310h0de0465_0' }"
 
     input:
@@ -32,11 +32,11 @@ process DYSGU {
     """
     dysgu call \
 		--mode nanopore \
-        -p $task.cpus
-		-b ${input} \
+        -p $task.cpus \
         -o ${meta.id}_dysgu.vcf \
         ${fasta} \
-		./
+		\$PWD/tmp \
+		${input}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

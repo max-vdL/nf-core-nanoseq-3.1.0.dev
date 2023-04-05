@@ -64,7 +64,7 @@ workflow STRUCTURAL_VARIANT_CALLING {
         /*
          * Call structural variants with sniffles2
          */
-        SNIFFLES2( ch_view_sortbam )
+        SNIFFLES2( ch_view_sortbam, ch_fasta )
         ch_versions = ch_versions.mix(SNIFFLES2.out.versions)
 
         /*

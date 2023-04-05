@@ -1,4 +1,4 @@
-process SNIFFLES {
+process SNIFFLES2 {
     tag "$meta.id"
     label 'process_high'
 
@@ -9,7 +9,7 @@ process SNIFFLES {
 
     input:
     tuple val(meta), path(bam), path(bai)
-    tuple val(meta2), path(fasta)
+    path(fasta)
 
 
     output:
