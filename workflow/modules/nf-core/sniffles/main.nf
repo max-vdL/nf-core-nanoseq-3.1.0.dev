@@ -8,12 +8,12 @@ process SNIFFLES2 {
         'quay.io/biocontainers/sniffles:2.0.7--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(bam), path(bai)
+    tuple val(meta), path(sizes), val(is_transcripts), path(bam), path(bai)
     path(fasta)
 
 
     output:
-    tuple val(meta), path("*.vcf"), emit: vcf
+    tuple val(meta), path("*.vcf"), emit: sv_calls
     tuple val(meta), path("*.snf"), emit: snf
     path "versions.yml"                    , emit: versions
 
