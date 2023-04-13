@@ -1,4 +1,5 @@
 process PEPPER_MARGIN_DEEPVARIANT {
+	errorStrategy 'ignore'
     tag "$meta.id"
     label 'process_high'
 
