@@ -1,2 +1,3 @@
 singularity-images/
 *.code-workspace
+**/.snapshot
