@@ -134,8 +134,6 @@ include { QUANTIFY_STRINGTIE_FEATURECOUNTS } from '../subworkflows/local/quantif
 include { DIFFERENTIAL_DESEQ2_DEXSEQ       } from '../subworkflows/local/differential_deseq2_dexseq'
 include { RNA_MODIFICATION_XPORE_M6ANET    } from '../subworkflows/local/rna_modifications_xpore_m6anet'
 include { RNA_FUSIONS_JAFFAL               } from '../subworkflows/local/rna_fusions_jaffal'
-include { MOSDEPTH                         } from '../subworkflows/local/mosdepth'
-
 ////////////////////////////////////////////////////
 /* --    IMPORT NF-CORE MODULES/SUBWORKFLOWS   -- */
 ////////////////////////////////////////////////////
@@ -145,6 +143,7 @@ include { MOSDEPTH                         } from '../subworkflows/local/mosdept
  */
 include { NANOLYSE                    } from '../modules/nf-core/nanolyse/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
+include { MOSDEPTH                    } from '../modules/nf-core/mosdepth/main'                                                                                                                                                                              
 
 /*
  * SUBWORKFLOW: Consisting entirely of nf-core/modules
@@ -302,7 +301,7 @@ workflow NANOSEQ{
 		if (!params.skip_mosdepth) {
 
 			/*
-			* SUBWORKFLOW: coverage information on regions of interest specified in bed file
+			* MODULE: coverage information on regions of interest specified in bed file
 			*/			
 			MOSDEPTH ( ch_view_sortbam, params.mosdepth_bed )
 			ch_software_versions = ch_software_versions.mix(MOSDEPTH.out.ch_versions.first().ifEmpty(null))

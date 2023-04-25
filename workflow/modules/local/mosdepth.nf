@@ -1,3 +1,5 @@
+// Custom module, NOT TESTED! Was discontinued in favor of nf-core module mosdepth
+
 process MOSDEPTH {
     label 'process_medium'
 
