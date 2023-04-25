@@ -303,8 +303,8 @@ workflow NANOSEQ{
 			/*
 			* MODULE: coverage information on regions of interest specified in bed file
 			*/			
-			MOSDEPTH ( ch_view_sortbam, params.mosdepth_bed )
-			ch_software_versions = ch_software_versions.mix(MOSDEPTH.out.ch_versions.first().ifEmpty(null))
+			MOSDEPTH ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
+			ch_software_versions = ch_software_versions.mix(MOSDEPTH.out.versions.first().ifEmpty(null))
 		}
 
         if (params.call_variants && params.protocol == 'DNA') {

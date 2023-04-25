@@ -8,8 +8,9 @@ process MOSDEPTH {
         'quay.io/biocontainers/mosdepth:0.3.3--hdfd78af_1'}"
 
     input:
-    tuple val(meta),  path(bam), path(bai), path(bed)
+    tuple val(meta), path(sizes), val(is_transcripts), path(input), path(index)
     tuple val(meta2), path(fasta)
+	path bed
 
     output:
     tuple val(meta), path('*.global.dist.txt')      , emit: global_txt
@@ -48,7 +49,7 @@ process MOSDEPTH {
         $reference \\
         $args \\
         $prefix \\
-        $bam
+        $input
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
