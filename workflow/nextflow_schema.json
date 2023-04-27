@@ -422,11 +422,13 @@
             "title": "Coverage anlysis options",
             "type": "object",
             "description": "Options required to run mosdepth after alignment",
-            "default": "",
+            "fa_icon": "fas fa-align-justify",
+            "help_text": "This is a tool designed to do coverage analysis after alignment to get a quick overview about what regions your targeted sequencing covered. There should be some regions that you expect coverage, those should be specifed in a bed file.",
             "properties": {
                 "skip_mosdepth": {
                     "type": "boolean",
                     "description": "Skip mosdepth",
+                    "default": false,
                     "fa_icon": "fas fa-fast-forward"
                 },
                 "mosdepth_bed": {
@@ -434,8 +436,7 @@
                     "description": "bed file with regions of interest for coverage analysis",
                     "fa_icon": "fas fa-drafting-compass"
                 }
-            },
-            "fa_icon": "fas fa-align-justify"
+            }
         },
         "generic_options": {
             "title": "Generic options",
