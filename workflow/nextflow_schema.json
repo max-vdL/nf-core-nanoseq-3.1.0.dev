@@ -435,6 +435,12 @@
                     "type": "string",
                     "description": "bed file with regions of interest for coverage analysis",
                     "fa_icon": "fas fa-drafting-compass"
+                },
+                "skip_roi_plotting": {
+                    "type": "boolean",
+                    "description": "Skip deeptools bamCoverage and plotting on regions of interest",
+                    "default": false,
+                    "help_text": "Is only relevant when mosdepth is run already, otherwise ignored."
                 }
             }
         },

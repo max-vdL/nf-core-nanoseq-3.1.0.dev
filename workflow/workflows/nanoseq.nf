@@ -115,6 +115,7 @@ include { QCAT                  } from '../modules/local/qcat'
 include { BAM_RENAME            } from '../modules/local/bam_rename'
 include { BAMBU                 } from '../modules/local/bambu'
 include { MULTIQC               } from '../modules/local/multiqc'
+include { COVERAGE_ANALYSIS     } from '../modules/local/coverageanalysis'
 
 /*
  * SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -305,6 +306,14 @@ workflow NANOSEQ{
 			*/			
 			MOSDEPTH ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
 			ch_software_versions = ch_software_versions.mix(MOSDEPTH.out.versions.first().ifEmpty(null))
+
+			if (!params.skip_coverage_analysis) {
+
+				/*
+				* MODULE: coverage information on regions of interest plotted with strandness information
+				*/	
+				COVERAGE_ANALYSIS ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
+			}
 		}
 
         if (params.call_variants && params.protocol == 'DNA') {
