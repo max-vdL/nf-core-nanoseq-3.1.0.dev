@@ -115,7 +115,7 @@ include { QCAT                  } from '../modules/local/qcat'
 include { BAM_RENAME            } from '../modules/local/bam_rename'
 include { BAMBU                 } from '../modules/local/bambu'
 include { MULTIQC               } from '../modules/local/multiqc'
-include { COVERAGE_ANALYSIS     } from '../modules/local/coverageanalysis'
+include { COVERAGEANALYSIS     } from '../modules/local/coverageanalysis'
 
 /*
  * SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -312,7 +312,7 @@ workflow NANOSEQ{
 				/*
 				* MODULE: coverage information on regions of interest plotted with strandness information
 				*/	
-				COVERAGE_ANALYSIS ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
+				COVERAGEANALYSIS ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
 			}
 		}
 

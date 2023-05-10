@@ -27,7 +27,7 @@ process COVERAGEANALYSIS {
     // container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
     //     'https://depot.galaxyproject.org/singularity/deeptools:3.5.1--pyhdfd78af_1':
     //     'quay.io/biocontainers/deeptools:3.5.1--pyhdfd78af_1' }"
-	container "$NXF_SINGULARITY_CACHEDIR/deeptools_covplotp-v1.0.img"
+	container "${NXF_SINGULARITY_CACHEDIR}/deeptools_covplot-v1.0.img"
 
     input:
     // TODO nf-core: Where applicable all sample-specific information e.g. "id", "single_end", "read_group"
@@ -36,8 +36,8 @@ process COVERAGEANALYSIS {
     //               https://github.com/nf-core/modules/blob/master/modules/nf-core/bwa/index/main.nf
     // TODO nf-core: Where applicable please provide/convert compressed files as input/output
     //               e.g. "*.fastq.gz" and NOT "*.fastq", "*.bam" and NOT "*.sam" etc.
-	tuple val(meta), path(sizes), val(is_transcripts), path(input), path(index)
-	path fasta
+    tuple val(meta), path(sizes), val(is_transcripts), path(input), path(index)
+    tuple val(meta2), path(fasta)
 	path bed
 
     output:
@@ -65,9 +65,10 @@ process COVERAGEANALYSIS {
 	mkdir bw
 	# Loop over regions of interest in bed file
 	while read -r chrom start end name; do
+		name=`echo "$name" | rev | cut -c 2- | rev`
 		# Define output bigWig file names for each strand
-		pos_bigwig="bw/${name::-1}_fwd.bw"
-		neg_bigwig="bw/${name::-1}_rev.bw"
+		pos_bigwig="bw/${name}_fwd.bw"
+		neg_bigwig="bw/${name}_rev.bw"
 
 		# Generate bigWig files for each strand, excluding reverse-complemented reads
 		bamCoverage -b $input -o "$pos_bigwig" -r "chr${chrom}:${start}:${end}" --samFlagExclude 16
