@@ -49,7 +49,7 @@ process COVERAGEANALYSIS {
     when:
     task.ext.when == null || task.ext.when
 
-    script:
+    shell:
     // def args = task.ext.args ?: ''
     // def prefix = task.ext.prefix ?: "${meta.id}"
     // TODO nf-core: Where possible, a command MUST be provided to obtain the version number of the software e.g. 1.10
@@ -64,8 +64,12 @@ process COVERAGEANALYSIS {
     """
 	mkdir bw
 	# Loop over regions of interest in bed file
-	while read -r chrom start end name; do
-		name=`echo "$name" | rev | cut -c 2- | rev`
+	while IFS="" read -r line || [ -n "${line}" ]; do
+		chrom=\$(awk '{print \$1}' <<< "${line}")
+		start=\$(awk '{print \$2}' <<< "${line}")
+		end=\$(awk '{print \$3}' <<< "${line}")
+		name=\$(awk '{print \$4}' <<< "${line}")
+		name=`echo "${name}" | rev | cut -c 2- | rev`
 		# Define output bigWig file names for each strand
 		pos_bigwig="bw/${name}_fwd.bw"
 		neg_bigwig="bw/${name}_rev.bw"
@@ -73,12 +77,12 @@ process COVERAGEANALYSIS {
 		# Generate bigWig files for each strand, excluding reverse-complemented reads
 		bamCoverage -b $input -o "$pos_bigwig" -r "chr${chrom}:${start}:${end}" --samFlagExclude 16
 		bamCoverage -b $input -o "$neg_bigwig" -r "chr${chrom}:${start}:${end}" --samFlagInclude 16
-	done < $bed
+	done < !{bed}
 
-	python3 plot_bws.py --bigwig_path bw/ --roi_path $bed -o ./
+	python3 plot_bws.py --bigwig_path bw/ --roi_path !{bed} -o ./
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
+    "!{task.process}":
         deeptools: \$(deeptools --version 2>&1)
     END_VERSIONS
     """
