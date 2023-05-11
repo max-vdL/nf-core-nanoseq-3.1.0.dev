@@ -47,7 +47,7 @@ process COVERAGEANALYSIS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        deeptools: \$(deeptools --version 2>&1)
+        deeptools: \$(deeptools --version 2>&1 | sed 's/deeptools //')
     END_VERSIONS
     """
 }

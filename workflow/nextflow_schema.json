@@ -175,7 +175,7 @@
                 "structural_variant_caller": {
                     "type": "string",
                     "default": "sniffles",
-                    "description": "Specifies the variant caller that will be used to call structural variants (available are: sniffles and cutesv). Structural variant calling is only available if '--call_variants' is set and the protocol is set to `DNA`.",
+                    "description": "Specifies the variant caller that will be used to call structural variants (available are: sniffles, sniffles2, cutesv, dysgu and debreak). Structural variant calling is only available if '--call_variants' is set and the protocol is set to `DNA`.",
                     "fa_icon": "fas fa-bezier-curve"
                 },
                 "split_mnps": {
@@ -427,7 +427,7 @@
             "properties": {
                 "skip_mosdepth": {
                     "type": "boolean",
-                    "description": "Skip mosdepth",
+                    "description": "Skip mosdepth, region of interest coverage plotting will automatically be skipped as well.",
                     "default": false,
                     "fa_icon": "fas fa-fast-forward"
                 },

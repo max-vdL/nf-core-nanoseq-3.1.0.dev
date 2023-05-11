@@ -115,7 +115,8 @@ include { QCAT                  } from '../modules/local/qcat'
 include { BAM_RENAME            } from '../modules/local/bam_rename'
 include { BAMBU                 } from '../modules/local/bambu'
 include { MULTIQC               } from '../modules/local/multiqc'
-include { COVERAGEANALYSIS     } from '../modules/local/coverageanalysis'
+include { COVERAGEANALYSIS      } from '../modules/local/coverageanalysis'
+include { GUNZIPMOSDEPTH        } from '../modules/local/gunzipmosdepth'
 
 /*
  * SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -305,7 +306,17 @@ workflow NANOSEQ{
 			* MODULE: coverage information on regions of interest specified in bed file
 			*/			
 			MOSDEPTH ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
-			ch_software_versions = ch_software_versions.mix(MOSDEPTH.out.versions.first().ifEmpty(null))
+        	ch_mosdepth_regionsbed = MOSDEPTH.out.regions_bed.ifEmpty(null)
+			// ch_software_versions   = ch_software_versions.mix(MOSDEPTH.out.versions.first().ifEmpty(null))
+
+			if (ch_mosdepth_regionsbed) {
+
+				/*
+				* MODULE: ungzipped region bed file 
+				*/	
+				GUNZIPMOSDEPTH ( ch_mosdepth_regionsbed )
+				// ch_software_versions = ch_software_versions.mix(GUNZIPMOSDEPTH.out.versions.first().ifEmpty(null))
+			}
 
 			if (!params.skip_coverage_analysis) {
 
@@ -313,6 +324,7 @@ workflow NANOSEQ{
 				* MODULE: coverage information on regions of interest plotted with strandness information
 				*/	
 				COVERAGEANALYSIS ( ch_view_sortbam, ch_fasta, params.mosdepth_bed )
+				// ch_software_versions = ch_software_versions.mix(COVERAGEANALYSIS.out.versions.first().ifEmpty(null))
 			}
 		}
 
