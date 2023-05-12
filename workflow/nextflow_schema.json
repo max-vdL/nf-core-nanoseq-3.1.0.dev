@@ -114,7 +114,7 @@
                 "run_nanolyse": {
                     "type": "boolean",
                     "description": "Filter reads from FastQ files using NanoLyse",
-                    "fa_icon": "fas fa-fast-forward"
+                    "fa_icon": "fas fa-fast-backward"
                 },
                 "nanolyse_fasta": {
                     "type": "string",
@@ -153,6 +153,21 @@
                     "fa_icon": "fas fa-fast-forward"
                 }
             }
+        },
+        "umi_options": {
+            "title": "UMI options",
+            "type": "object",
+            "description": "Options to specify when UMIs are included in reads",
+            "default": "",
+            "properties": {
+                "run_UMI_dedup": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-fast-backward",
+                    "description": "Run the deduplication tool from UMI tools.",
+                    "help_text": "If activated, after alignment the aligned bam will be passed to UMItools/dedup. This will create consensus reads for each unique UMI and consequently remove a large number of sequencing errors. At the loss of a lot of depth, however."
+                }
+            },
+            "fa_icon": "fas fa-fingerprint"
         },
         "variant_calling_options": {
             "title": "Variant calling options",
@@ -418,8 +433,8 @@
                 }
             }
         },
-        "coverage_anlysis_options": {
-            "title": "Coverage anlysis options",
+        "coverage_analysis_options": {
+            "title": "Coverage analysis options",
             "type": "object",
             "description": "Options required to run mosdepth after alignment",
             "fa_icon": "fas fa-align-justify",
@@ -428,7 +443,6 @@
                 "skip_mosdepth": {
                     "type": "boolean",
                     "description": "Skip mosdepth, region of interest coverage plotting will automatically be skipped as well.",
-                    "default": false,
                     "fa_icon": "fas fa-fast-forward"
                 },
                 "mosdepth_bed": {
@@ -439,7 +453,6 @@
                 "skip_roi_plotting": {
                     "type": "boolean",
                     "description": "Skip deeptools bamCoverage and plotting on regions of interest",
-                    "default": false,
                     "help_text": "Is only relevant when mosdepth is run already, otherwise ignored."
                 }
             }
@@ -539,6 +552,9 @@
             "$ref": "#/definitions/alignment_options"
         },
         {
+            "$ref": "#/definitions/umi_options"
+        },
+        {
             "$ref": "#/definitions/variant_calling_options"
         },
         {
@@ -563,7 +579,7 @@
             "$ref": "#/definitions/max_job_request_options"
         },
         {
-            "$ref": "#/definitions/coverage_anlysis_options"
+            "$ref": "#/definitions/coverage_analysis_options"
         },
         {
             "$ref": "#/definitions/generic_options"
