@@ -146,6 +146,8 @@ include { RNA_FUSIONS_JAFFAL               } from '../subworkflows/local/rna_fus
 include { NANOLYSE                    } from '../modules/nf-core/nanolyse/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 include { MOSDEPTH                    } from '../modules/nf-core/mosdepth/main'                                                                                                                                                                              
+include { UMITOOLS_DEDUP              } from '../modules/nf-core/umitools/dedup/main' 
+include { UMITOOLS_EXTRACT            } from '../modules/nf-core/umitools/extract/main' 
 
 /*
  * SUBWORKFLOW: Consisting entirely of nf-core/modules
@@ -248,6 +250,21 @@ workflow NANOSEQ{
         ch_software_versions = ch_software_versions.mix(NANOLYSE.out.versions.first().ifEmpty(null))
     }
 
+	if (params.run_UMI_dedup) {
+        ch_fastq
+            .map { it -> [ it[0], it[1] ] }
+            .set { ch_fastq_extract }
+		/*
+		* MODULE: annotate reads.fastq files with their UMI tags by putting the tag in the filename
+		*/	
+		UMITOOLS_EXTRACT ( ch_fastq_extract )
+		UMITOOLS_EXTRACT.out.reads
+            .join( ch_sample )
+            .map { it -> [ it[0], it[1], it[3], it[4], it[5], it[6] ]}
+            .set { ch_fastq }
+        ch_software_versions = ch_software_versions.mix(UMITOOLS_EXTRACT.out.versions.first().ifEmpty(null))
+	}
+
     ch_fastqc_multiqc = Channel.empty()
     if (!params.skip_qc) {
 
@@ -260,7 +277,8 @@ workflow NANOSEQ{
     }
 
     ch_samtools_multiqc = Channel.empty()
-    if (!params.skip_alignment) {
+    
+	if (!params.skip_alignment) {
 
         /*
          * SUBWORKFLOW: Make chromosome size file and covert GTF to BED12
@@ -299,6 +317,15 @@ workflow NANOSEQ{
         ch_view_sortbam = BAM_SORT_INDEX_SAMTOOLS.out.sortbam
         ch_software_versions = ch_software_versions.mix(BAM_SORT_INDEX_SAMTOOLS.out.samtools_versions.first().ifEmpty(null))
         ch_samtools_multiqc  = BAM_SORT_INDEX_SAMTOOLS.out.sortbam_stats_multiqc.ifEmpty([])
+
+		if (params.run_UMI_dedup) {
+
+			/*
+			* MODULE: duduplicate reads in bam with the help of UMI tags added in UMITOOLS_EXTRACT
+			*/	
+			UMITOOLS_DEDUP ( ch_view_sortbam, true )
+			ch_view_sortbam = UMITOOLS_DEDUP.out.bam
+		}
 
 		if (!params.skip_mosdepth) {
 
