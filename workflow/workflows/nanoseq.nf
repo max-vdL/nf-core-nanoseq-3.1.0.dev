@@ -65,7 +65,7 @@ if (!params.skip_alignment) {
     }
 }
 
-if (!params.skip_mosdepth) {
+if (params.run_mosdepth) {
     if (params.skip_alignment) {
         exit 1, "Mosdepth needs the aligned bam file as input. I cannot be used when skipping alignment."
     }
@@ -327,7 +327,7 @@ workflow NANOSEQ{
 			ch_view_sortbam = UMITOOLS_DEDUP.out.bam
 		}
 
-		if (!params.skip_mosdepth) {
+		if (params.run_mosdepth) {
 
 			/*
 			* MODULE: coverage information on regions of interest specified in bed file
@@ -345,7 +345,7 @@ workflow NANOSEQ{
 				// ch_software_versions = ch_software_versions.mix(GUNZIPMOSDEPTH.out.versions.first().ifEmpty(null))
 			}
 
-			if (!params.skip_coverage_analysis) {
+			if (!params.skip_roi_plotting) {
 
 				/*
 				* MODULE: coverage information on regions of interest plotted with strandness information

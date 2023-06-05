@@ -26,9 +26,17 @@
 
   > Jiang T, Liu Y, Jiang Y, Li J, Gao Y, Cui Z, Liu Y, Liu B, Wang Y. Long-read-based human genomic structural variation detection with cuteSV. Genome Biol. 2020 Aug 3;21(1):189. doi: 10.1186/s13059-020-02107-y. PMID: 32746918; PMCID: PMC7477834.
 
+- [DeBreak](https://pubmed.ncbi.nlm.nih.gov/36650186/)
+
+  > Chen Y, Wang AY, Barkley CA, Zhang Y, Zhao X, Gao M, Edmonds MD, Chong Z. Deciphering the exact breakpoints of structural variations using long sequencing reads with DeBreak. Nat Commun. 2023 Jan 17;14(1):283. doi: 10.1038/s41467-023-35996-1. PMID: 36650186; PMCID: PMC9845341.
+
 - [DeepVariant](https://pubmed.ncbi.nlm.nih.gov/30247488/)
 
   > Poplin R, Chang PC, Alexander D, Schwartz S, Colthurst T, Ku A, Newburger D, Dijamco J, Nguyen N, Afshar PT, Gross SS, Dorfman L, McLean CY, DePristo MA. A universal SNP and small-indel variant caller using deep neural networks. Nat Biotechnol. 2018 Nov;36(10):983-987. doi: 10.1038/nbt.4235. Epub 2018 Sep 24. PMID: 30247488.
+
+- [Dysgu](https://pubmed.ncbi.nlm.nih.gov/35100420/)
+  
+  > Cleal K, Baird DM. Dysgu: efficient structural variant calling using short or long reads. Nucleic Acids Res. 2022 May 20;50(9):e53. doi: 10.1093/nar/gkac039. PMID: 35100420; PMCID: PMC9122538.
 
 - [featureCounts](https://www.ncbi.nlm.nih.gov/pubmed/24227677/)
 
@@ -56,6 +64,10 @@
 
 - [Medaka](https://github.com/nanoporetech/medaka)
 
+- [Mosdepth](https://academic.oup.com/bioinformatics/article/34/5/867/4583630)
+
+  > Brent S Pedersen, Aaron R Quinlan, Mosdepth: quick coverage calculation for genomes and exomes, Bioinformatics, Volume 34, Issue 5, 01 March 2018, Pages 867–868. doi: 10.1093/bioinformatics/btx699. PubMed PMID: 29096012. PubMed Central PMCID: PMC6030888.
+
 - [MultiQC](https://www.ncbi.nlm.nih.gov/pubmed/27312411/)
 
   > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
@@ -81,6 +93,10 @@
 - [StringTie2](https://www.ncbi.nlm.nih.gov/pubmed/31842956/)
 
   > Kovaka S, Zimin AV, Pertea GM, Razaghi R, Salzberg SL, Pertea M. Transcriptome assembly from long-read RNA-seq alignments with StringTie2 Genome Biol. 2019 Dec 16;20(1):278. doi: 10.1186/s13059-019-1910-1. PubMed PMID: 31842956; PubMed Central PMCID: PMC6912988.
+
+- [UMI-tools](https://pubmed.ncbi.nlm.nih.gov/28100584/)
+
+  > Smith T, Heger A, Sudbery I. UMI-tools: modeling sequencing errors in Unique Molecular Identifiers to improve quantification accuracy Genome Res. 2017 Mar;27(3):491-499. doi: 10.1101/gr.209601.116. Epub 2017 Jan 18. PubMed PMID: 28100584; PubMed Central PMCID: PMC5340976.
 
 - [UCSC tools](https://www.ncbi.nlm.nih.gov/pubmed/20639541/)
 
