@@ -20,9 +20,12 @@ process SAMTOOLS_SORT_INDEX {
 
     script:
     """
-    samtools sort -@ $task.cpus -o ${meta.id}.sorted.bam -T $meta.id $bam
+    # get the name of the bam file without .bam
+    bamprefix=\$(basename ${bam} | sed 's/.bam//')
+    
+    samtools sort -@ $task.cpus -T $meta.id ${bam} > \${bamprefix}.sorted.bam
 
-    samtools index ${meta.id}.sorted.bam
+    samtools index \${bamprefix}.sorted.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -117,6 +117,8 @@ include { BAMBU                 } from '../modules/local/bambu'
 include { MULTIQC               } from '../modules/local/multiqc'
 include { COVERAGEANALYSIS      } from '../modules/local/coverageanalysis'
 include { GUNZIPMOSDEPTH        } from '../modules/local/gunzipmosdepth'
+include { SAMTOOLS_SORT_INDEX   } from '../modules/local/samtools_sort_index'
+
 
 /*
  * SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -128,6 +130,7 @@ include { QCFASTQ_NANOPLOT_FASTQC          } from '../subworkflows/local/qcfastq
 include { ALIGN_GRAPHMAP2                  } from '../subworkflows/local/align_graphmap2'
 include { ALIGN_MINIMAP2                   } from '../subworkflows/local/align_minimap2'
 include { BAM_SORT_INDEX_SAMTOOLS          } from '../subworkflows/local/bam_sort_index_samtools'
+// include { BAM_SORT_INDEX_SAMTOOLS as UMIBAM_SORT_INDEX_SAMTOOLS } from '../subworkflows/local/bam_sort_index_samtools'
 include { SHORT_VARIANT_CALLING            } from '../subworkflows/local/short_variant_calling'
 include { STRUCTURAL_VARIANT_CALLING       } from '../subworkflows/local/structural_variant_calling'
 include { BEDTOOLS_UCSC_BIGWIG             } from '../subworkflows/local/bedtools_ucsc_bigwig'
@@ -148,6 +151,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 include { MOSDEPTH                    } from '../modules/nf-core/mosdepth/main'                                                                                                                                                                              
 include { UMITOOLS_DEDUP              } from '../modules/nf-core/umitools/dedup/main' 
 include { UMITOOLS_EXTRACT            } from '../modules/nf-core/umitools/extract/main' 
+include { SAMTOOLS_INDEX              } from '../modules/nf-core/samtools/index/main'
 
 /*
  * SUBWORKFLOW: Consisting entirely of nf-core/modules
@@ -324,7 +328,16 @@ workflow NANOSEQ{
 			* MODULE: duduplicate reads in bam with the help of UMI tags added in UMITOOLS_EXTRACT
 			*/	
 			UMITOOLS_DEDUP ( ch_view_sortbam, true )
-			ch_view_sortbam = UMITOOLS_DEDUP.out.bam
+
+			/*
+			* MODULE: index bam file from umitools_dedup
+			*/
+			SAMTOOLS_SORT_INDEX ( UMITOOLS_DEDUP.out.bam.map { it -> [ it[0], it[3] ] } )
+			ch_align_sam
+				.join( SAMTOOLS_SORT_INDEX.out.bam_bai )
+				.map { it -> [ it[0], it[1], it[2], it[4], it[5] ] }
+				.set { ch_view_sortbam }
+			// if multiqc wanted, BAM_SORT_INDEX_SAMTOOLS will have to be changed an used. Way more complicated.
 		}
 
 		if (params.run_mosdepth) {
