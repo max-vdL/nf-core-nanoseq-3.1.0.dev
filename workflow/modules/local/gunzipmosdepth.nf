@@ -28,6 +28,8 @@ process GUNZIPMOSDEPTH {
     script:
     """
 	gunzip $bed
+	sed -i '1i chr	start	stop	name	median_coverage' ./*.bed
+
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

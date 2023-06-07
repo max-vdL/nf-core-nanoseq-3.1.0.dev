@@ -12,7 +12,7 @@ process COVERAGEANALYSIS {
     label 'process_medium'
 
     conda "bioconda::deeptools=3.5.1 bioconda::pybigwig=0.3.18 conda-forge::matplotlib=3.3.4 bioconda::argparse=1.4.0"
-	container "${NXF_SINGULARITY_CACHEDIR}/deeptools_covplot-v1.1.img"
+	container "${NXF_SINGULARITY_CACHEDIR}/deeptools_covplot-v1.2.img"
 
     input:
     tuple val(meta), path(sizes), val(is_transcripts), path(input), path(index)
