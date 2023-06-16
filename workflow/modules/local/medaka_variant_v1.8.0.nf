@@ -2,10 +2,10 @@ process MEDAKA_VARIANT {
     tag "$meta.id"
     label 'process_high'
 
-    conda "bioconda::medaka=1.4.4"
+    conda "bioconda::medaka=1.8.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/medaka:1.4.4--py38h130def0_0' :
-        'quay.io/biocontainers/medaka:1.4.4--py38h130def0_0' }"
+        'https://depot.galaxyproject.org/singularity/medaka:1.8.0--py310hb7fe8e6_0' :
+        'quay.io/biocontainers/medaka:1.8.0--py310hb7fe8e6_0' }"
 
     input:
     tuple val(meta), path(sizes), val(is_transcripts), path(input), path(index)
@@ -13,27 +13,24 @@ process MEDAKA_VARIANT {
 
     output:
     tuple val(meta), path ("$output_vcf"), emit: vcf // vcf files
+    tuple val(meta), path ("$output_gvcf"), emit: gvcf // gvcf files
     path "versions.yml"                  , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def split_mnps       =  params.split_mnps   ? "-l"                        : ''
-    def phase_vcf        =  params.phase_vcf    ? "-p"                        : ''
     def args = task.ext.args ?: ''
 
     output_dir = "${meta.id}"
-    output_vcf = output_dir+"/round_1.vcf"
+    output_vcf = output_dir+"/*.vcf"
+    output_gvcf = output_dir+"/*.g.vcf"
     """
 
-    medaka_variant \\
-        -f $fasta \\
-        -i $input \\
-        -o $output_dir \\
-        -t $task.cpus \\
-        $split_mnps \\
-        $phase_vcf \\
+    medaka variant \\
+        $fasta \\
+        $input \\
+        $output_dir \\
         $args
 
     cat <<-END_VERSIONS > versions.yml

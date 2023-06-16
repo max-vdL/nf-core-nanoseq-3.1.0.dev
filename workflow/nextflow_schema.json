@@ -253,6 +253,10 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-fast-forward",
                     "description": "Skip structural variant calling."
+                },
+                "variant_region": {
+                    "type": "string",
+                    "description": "Optional region string in the form of 'chr:1-10' for variant calling in a specific region."
                 }
             }
         },
