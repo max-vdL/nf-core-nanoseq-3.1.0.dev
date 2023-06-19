@@ -220,7 +220,7 @@
                 "variant_caller": {
                     "type": "string",
                     "default": "medaka",
-                    "description": "Specifies the variant caller that will used to call small variants (available are: medaka, deepvariant, and pepper_margin_deepvariant). Variant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Please note `deepvariant` and `pepper_margin_deepvariant` are only avaible if using singularity or docker.",
+                    "description": "Specifies the variant caller that will used to call small variants (available are: medaka, clair3, deepvariant, and pepper_margin_deepvariant). Variant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Please note `deepvariant` and `pepper_margin_deepvariant` are only avaible if using singularity or docker.",
                     "fa_icon": "fas fa-bezier-curve"
                 },
                 "structural_variant_caller": {

@@ -20,22 +20,21 @@ process CLAIR3 {
     label 'process_high'
 
     conda "bioconda::clair3=1.0.2"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/clair3:1.0.2--py39hb9dc472_0':
-        'quay.io/biocontainers/clair3:1.0.2--py39hb9dc472_0' }"
+    // container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    //     'https://depot.galaxyproject.org/singularity/clair3:1.0.2--py39hb9dc472_0':
+    //     'quay.io/biocontainers/clair3:1.0.2--py39hb9dc472_0' }"
+    container "${NXF_SINGULARITY_CACHEDIR}/clair3_latest.img"
 
     input:
-    // TODO nf-core: Where applicable all sample-specific information e.g. "id", "single_end", "read_group"
-    //               MUST be provided as an input via a Groovy Map called "meta".
-    //               This information may not be required in some instances e.g. indexing reference genome files:
-    //               https://github.com/nf-core/modules/blob/master/modules/nf-core/bwa/index/main.nf
     tuple val(meta), path(sizes), val(is_transcripts), path(input), path(index)
     path(fasta)
+    path(fai)
 
 
     output:
-    tuple val(meta), path ("$output_vcf"), emit: vcf // vcf files
-    tuple val(meta), path ("$output_gvcf"), emit: gvcf // gvcf files
+    tuple val(meta), path("$prefix/merge_output.vcf.gz")    ,  emit: vcf
+    tuple val(meta), path("$prefix/merge_output.gvcf.gz")   ,  emit: gvcf  ,  optional: true
+    tuple val(meta), path("$prefix/merge_output.*vcf.gz.tbi"),  emit: tbi  ,  optional: true  
     path "versions.yml"                  , emit: versions
 
 
@@ -44,24 +43,17 @@ process CLAIR3 {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
-    // TODO nf-core: Where possible, a command MUST be provided to obtain the version number of the software e.g. 1.10
-    //               If the software is unable to output a version number on the command-line then it can be manually specified
-    //               e.g. https://github.com/nf-core/modules/blob/master/modules/nf-core/homer/annotatepeaks/main.nf
-    //               Each software used MUST provide the software name and version number in the YAML version file (versions.yml)
-    // TODO nf-core: It MUST be possible to pass additional parameters to the tool as a command-line string via the "task.ext.args" directive
-    // TODO nf-core: If the tool supports multi-threading then you MUST provide the appropriate parameter
-    //               using the Nextflow "task" variable e.g. "--threads $task.cpus"
-    // TODO nf-core: Please replace the example samtools command below with your module's command
-    // TODO nf-core: Please indent the command appropriately (4 spaces!!) to help with readability ;)
+    prefix      = task.ext.prefix ?: "${meta.id}"
+
     """
-	run_clair3.sh \\
-		--bam_fn=$input \\                 ## change your bam file name here
-		--ref_fn=$fasta \\                    ## change your reference file name here
-		--threads=$task.cpus \\               ## maximum threads to be used
-		--platform="ont" \\                   ## options: {ont,hifi,ilmn}
-		--model_path="/opt/models/r941_prom_sup_g5014" \\ 
-		--output=$prefix              ## output path prefix
+    run_clair3.sh \\
+        --bam_fn=$input \\
+        --ref_fn=$fasta \\
+        --threads=$task.cpus \\
+        --platform="ont" \\
+        --model_path="/opt/models/r941_prom_sup_g5014" \\
+        --output=$prefix \\
+        $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

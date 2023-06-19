@@ -11,6 +11,9 @@ include { DEEPVARIANT                           } from '../../modules/local/deep
 include { TABIX_TABIX as DEEPVARIANT_TABIX_VCF  } from '../../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as DEEPVARIANT_TABIX_GVCF } from '../../modules/nf-core/tabix/tabix/main'
 include { PEPPER_MARGIN_DEEPVARIANT             } from '../../modules/local/pepper_margin_deepvariant'
+include { CLAIR3                                } from '../../modules/local/clair3'
+include { TABIX_TABIX as CLAIR3_TABIX_VCF  } from '../../modules/nf-core/tabix/tabix/main'
+include { TABIX_TABIX as CLAIR3_TABIX_GVCF } from '../../modules/nf-core/tabix/tabix/main'
 
 workflow SHORT_VARIANT_CALLING {
 
@@ -84,6 +87,30 @@ workflow SHORT_VARIANT_CALLING {
         DEEPVARIANT_TABIX_GVCF( ch_short_calls_gvcf )
         ch_short_calls_gvcf_tbi  = DEEPVARIANT_TABIX_GVCF.out.tbi
         ch_versions = ch_versions.mix(DEEPVARIANT_TABIX_VCF.out.versions)
+
+    } else if (params.variant_caller == 'clair3') {
+
+        /*
+        * Call variants with clair3
+        */
+        CLAIR3( ch_view_sortbam, ch_fasta, ch_fai )
+        ch_short_calls_vcf  = CLAIR3.out.vcf
+        // ch_short_calls_gvcf = CLAIR3.out.gvcf
+        ch_versions = ch_versions.mix(CLAIR3.out.versions)
+
+        /*
+         * Index clair3 vcf.gz
+         */
+        // CLAIR3_TABIX_VCF( ch_short_calls_vcf )
+        // ch_short_calls_vcf_tbi  = CLAIR3_TABIX_VCF.out.tbi
+        // ch_versions = ch_versions.mix(CLAIR3_TABIX_VCF.out.versions)
+
+        // /*
+        //  * Index clair3 g.vcf.gz
+        //  */
+        // CLAIR3_TABIX_GVCF( ch_short_calls_gvcf )
+        // ch_short_calls_gvcf_tbi  = CLAIR3_TABIX_GVCF.out.tbi
+        // ch_versions = ch_versions.mix(CLAIR3_TABIX_GVCF.out.versions)
 
     } else {
 
