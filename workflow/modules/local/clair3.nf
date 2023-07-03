@@ -35,6 +35,7 @@ process CLAIR3 {
     tuple val(meta), path("$prefix/merge_output.vcf.gz")    ,  emit: vcf
     tuple val(meta), path("$prefix/merge_output.gvcf.gz")   ,  emit: gvcf  ,  optional: true
     tuple val(meta), path("$prefix/merge_output.*vcf.gz.tbi"),  emit: tbi  ,  optional: true  
+    tuple val(meta), path("$prefix/run_clair3.log") 
     path "versions.yml"                  , emit: versions
 
 

@@ -1,6 +1,6 @@
 process QCAT {
     tag "$input_path"
-    label 'process_medium'
+    label 'process_high'
 
     conda "bioconda::qcat=1.1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
