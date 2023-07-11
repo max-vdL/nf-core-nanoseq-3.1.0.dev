@@ -257,6 +257,18 @@
                 "variant_region": {
                     "type": "string",
                     "description": "Optional region string in the form of 'chr:1-10' for variant calling in a specific region."
+                },
+                "run_vcfpostprocess": {
+                    "type": "boolean",
+                    "description": "Starts a workflow to remap vcfs to hg38, annotate it with ensembl-vep and summarise SNPs in a table."
+                },
+                "annotation_hub": {
+                    "type": "string",
+                    "description": "Location of the ensembl annotation hub. Needed for remapping to hg38."
+                },
+                "ensembl_vep": {
+                    "type": "string",
+                    "description": "Location of the ensembl vep config folder. Needed for annotation of AAs."
                 }
             }
         },

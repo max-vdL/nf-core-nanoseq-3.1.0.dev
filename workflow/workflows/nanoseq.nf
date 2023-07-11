@@ -98,6 +98,24 @@ if (!params.skip_quantification) {
     }
 }
 
+if (params.run_vcfpostprocess) {
+	if (!params.annotation_hub) {
+		exit 1, "Ensembl annotation hub location. Is obligatory for remapping."
+	}
+	if (!params.call_variants) {
+		exit 1, "Can't postprocess vcf files if not variant calling is performed to produce vcf files. Please activate SNP calling."
+	}
+	if (!params.skip_sv) {
+		exit 1, "Not suited for structural variant, only SNPs. Please activate 'skip_sv'."
+	}
+	if (params.skip_vc) {
+		exit 1, "Can't postprocess SNP vcf files if vc is skipped."
+	}
+	if (params.enable_conda || params.enable_docker) {
+		exit 1, "VCF postprocessing currently only runs with singularity. Please choose singularity instead of conda or docker."
+	}
+}
+
 ////////////////////////////////////////////////////
 /* --          CONFIG FILES                    -- */
 ////////////////////////////////////////////////////
@@ -139,6 +157,7 @@ include { QUANTIFY_STRINGTIE_FEATURECOUNTS } from '../subworkflows/local/quantif
 include { DIFFERENTIAL_DESEQ2_DEXSEQ       } from '../subworkflows/local/differential_deseq2_dexseq'
 include { RNA_MODIFICATION_XPORE_M6ANET    } from '../subworkflows/local/rna_modifications_xpore_m6anet'
 include { RNA_FUSIONS_JAFFAL               } from '../subworkflows/local/rna_fusions_jaffal'
+include { VCF_POSTPROCESS                  } from '../subworkflows/local/vcf_postprocess'
 ////////////////////////////////////////////////////
 /* --    IMPORT NF-CORE MODULES/SUBWORKFLOWS   -- */
 ////////////////////////////////////////////////////
@@ -375,6 +394,13 @@ workflow NANOSEQ{
             if (!params.skip_vc) {
                 SHORT_VARIANT_CALLING ( ch_view_sortbam, ch_fasta.map{ it [1] }, ch_fai.map{ it [1] } )
                 ch_software_versions = ch_software_versions.mix(SHORT_VARIANT_CALLING.out.ch_versions.first().ifEmpty(null))
+
+				/*
+				* SUBWORKFLOW: SNP vcf postprocessing
+				*/
+				if (params.run_vcfpostprocess) {
+					VCF_POSTPROCESS ( SHORT_VARIANT_CALLING.out.ch_short_calls_vcf, ch_fasta.map{ it [1] }, ch_fai.map{ it [1] } )
+				}
             }
 
             /*
