@@ -39,8 +39,8 @@ process COVERAGEANALYSIS {
 		neg_bigwig="bw/\${name}_rev.bw"
 
 		# Generate bigWig files for each strand, excluding reverse-complemented reads
-		bamCoverage -b $input -o "\$pos_bigwig" -r "chr\${chrom}:\${start}:\${end}" --samFlagExclude 16
-		bamCoverage -b $input -o "\$neg_bigwig" -r "chr\${chrom}:\${start}:\${end}" --samFlagInclude 16
+		bamCoverage -b $input -o "\$pos_bigwig" -r "\${chrom}:\${start}:\${end}" --samFlagExclude 16
+		bamCoverage -b $input -o "\$neg_bigwig" -r "\${chrom}:\${start}:\${end}" --samFlagInclude 16
 	done < $bed
 
 	python3 /scripts/plot_bws.py --bigwig_path bw/ --roi_path $bed -o "./${meta.id}_coverage_plot"

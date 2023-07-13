@@ -499,7 +499,8 @@
                 },
                 "mosdepth_bed": {
                     "type": "string",
-                    "description": "bed file with regions of interest for coverage analysis",
+                    "description": "bed file with regions of interest for coverage analysis.",
+					"help_text": "Please check your reference Genome for the correct chromosome names. UCSC/NCBI genomes have the prefix 'chr' in all their chromosome names, ensembl genomes don't.",
                     "fa_icon": "fas fa-drafting-compass"
                 },
                 "skip_roi_plotting": {
