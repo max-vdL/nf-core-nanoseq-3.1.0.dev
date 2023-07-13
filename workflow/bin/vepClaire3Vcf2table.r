@@ -159,7 +159,7 @@ if(length(tmp_vcf)==0){
 			vcf_info_df[[i]] <- vcf_geno[[i]]
 		}
 		colnames(vcf_info_df) <- names(vcf_geno)
-		keep_columns <- c(names(vcf_geno), "SYMBOL", "Protein_position", "Amino_acids", "Codons", "HGVSp", "Existing_variation", "Consequence", "IMPACT", "SIFT", "PolyPhen", "HGVSc", "MANE_SELECT", "Gene", "EXON", "cDNA_position", "CDS_position")
+		keep_columns <- c("ID", names(vcf_geno), "SYMBOL", "Protein_position", "Amino_acids", "Codons", "HGVSp", "Existing_variation", "Consequence", "IMPACT", "SIFT", "PolyPhen", "HGVSc", "MANE_SELECT", "Gene", "EXON", "cDNA_position", "CDS_position")
 		cli_alert_info("Using data from FILTER and SAMPLE instead of INFO")
 	}
 	# selecting fixed columns
