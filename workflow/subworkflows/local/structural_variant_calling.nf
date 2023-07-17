@@ -37,7 +37,7 @@ workflow STRUCTURAL_VARIANT_CALLING {
     /*
      * Call structural variants with sniffles
      */
-    if (params.structural_variant_caller == 'sniffles') {
+    if (params.structural_variant_caller.split(',').contains('sniffles')) {
 
         /*
          * Call structural variants with sniffles
@@ -59,7 +59,8 @@ workflow STRUCTURAL_VARIANT_CALLING {
         ch_sv_calls_tbi  = SNIFFLES_TABIX_VCF.out.tbi
         ch_versions = ch_versions.mix(SNIFFLES_TABIX_VCF.out.versions)
 
-    } else if (params.structural_variant_caller == 'sniffles2') {
+    }
+	if (params.structural_variant_caller.split(',').contains('sniffles2')) {
 
         /*
          * Call structural variants with sniffles2
@@ -81,7 +82,8 @@ workflow STRUCTURAL_VARIANT_CALLING {
         ch_sv_calls_tbi  = SNIFFLES_TABIX_VCF.out.tbi
         ch_versions = ch_versions.mix(SNIFFLES_TABIX_VCF.out.versions)
 
-    } else if (params.structural_variant_caller == 'cutesv') {
+    }
+	if (params.structural_variant_caller.split(',').contains('cutesv')) {
 
         /*
         * Call structural variants with cutesv
@@ -103,7 +105,8 @@ workflow STRUCTURAL_VARIANT_CALLING {
         ch_sv_calls_tbi  = CUTESV_TABIX_VCF.out.tbi
         ch_versions = ch_versions.mix(CUTESV_TABIX_VCF.out.versions)
 
-    } else if (params.structural_variant_caller == 'dysgu') {
+    }
+	if (params.structural_variant_caller.split(',').contains('dysgu')) {
 
         /*
         * Call structural variants with dysgu
@@ -125,7 +128,8 @@ workflow STRUCTURAL_VARIANT_CALLING {
         ch_sv_calls_tbi  = DYSGU_TABIX_VCF.out.tbi
         ch_versions = ch_versions.mix(DYSGU_TABIX_VCF.out.versions)
 
-    } else if (params.structural_variant_caller == 'debreak') {
+    }
+	if (params.structural_variant_caller.split(',').contains('debreak')) {
 
         /*
         * Call structural variants with debreak

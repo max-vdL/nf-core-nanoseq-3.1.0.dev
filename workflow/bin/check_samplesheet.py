@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import os
+import glob
+import shutil
 import sys
 import errno
 import argparse
@@ -140,6 +142,16 @@ def check_samplesheet(file_in, updated_path, file_out):
                             print_error(
                                 'path does not end with ".fastq.gz", ".fq.gz", or ".bam" and is not an existing directory with correct fast5 and/or fastq inputs.'
                             )
+                ## CHECK IF THE INPUT IS MULTIPLE FILES AND NEEDS TO BE MERGED
+                files = glob.glob(input_file)
+                if len(files) > 1:
+                    prefix = os.path.basename(os.path.commonprefix(glob.glob(input_file)))
+                    merged_file = f'{prefix}_merged{input_extensions[-1][1:]}'
+                    with open(merged_file, 'wb') as outfile:
+                        for file in files:
+                            with open(file, 'rb') as infile:
+                                outfile.write(infile.read())
+                    input_file = os.path.abspath(merged_file)
 
             ## Check genome entries
             if fasta:

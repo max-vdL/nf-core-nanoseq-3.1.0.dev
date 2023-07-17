@@ -219,15 +219,17 @@
                 },
                 "variant_caller": {
                     "type": "string",
-                    "default": "medaka",
-                    "description": "Specifies the variant caller that will used to call small variants (available are: medaka, clair3, deepvariant, and pepper_margin_deepvariant). Variant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Please note `deepvariant` and `pepper_margin_deepvariant` are only avaible if using singularity or docker.",
-                    "fa_icon": "fas fa-bezier-curve"
+                    "fa_icon": "fas fa-bezier-curve",
+                    "description": "Tool(s) to use for single/small variant calling.",
+                    "help_text": "One or multiple tools separated with commas.\n\n**Variant Calling:**\n\nGermline variant calling can currently be performed with the following variant callers:\n- SNPs/Indels: medaka, clair3, deepvariant, and pepper_margin_deepvariant.\nVariant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Please note `deepvariant` and `pepper_margin_deepvariant` are only avaible if using singularity or docker.",
+                    "pattern": "^((medaka|clair3|deepvariant|pepper_margin_deepvariant)?,?)*(?<!,)$"
                 },
                 "structural_variant_caller": {
                     "type": "string",
-                    "default": "sniffles",
-                    "description": "Specifies the variant caller that will be used to call structural variants (available are: sniffles, sniffles2, cutesv, dysgu and debreak). Structural variant calling is only available if '--call_variants' is set and the protocol is set to `DNA`.",
-                    "fa_icon": "fas fa-bezier-curve"
+                    "fa_icon": "fas fa-bezier-curve",
+                    "description": "Tool(s) to use for structural variant calling.",
+                    "help_text": "One or multiple tools separated with commas.\n\n**Variant Calling:**\n\nGermline variant calling can currently be performed with the following variant callers:\n- SVs: sniffles, sniffles2, cutesv, dysgu and debreak.\nVariant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Usage of Singularity or Docker is highly encouraged.",
+                    "pattern": "^((sniffles|sniffles2|cutesv|dysgu|debreak)?,?)*(?<!,)$"
                 },
                 "split_mnps": {
                     "type": "boolean",

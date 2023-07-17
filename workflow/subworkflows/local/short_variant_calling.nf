@@ -32,7 +32,7 @@ workflow SHORT_VARIANT_CALLING {
     /*
      * Call short variants
      */
-    if (params.variant_caller == 'medaka') {
+    if (params.variant_caller.split(',').contains('medaka')) {
 
         /*
          * Call short variants with medaka
@@ -64,7 +64,8 @@ workflow SHORT_VARIANT_CALLING {
         // MEDAKA_TABIX_GVCF( ch_short_calls_gvcf )
         // ch_short_calls_gvcf_tbi  = MEDAKA_TABIX_GVCF.out.tbi
 
-    } else if (params.variant_caller == 'deepvariant') {
+    }
+	if (params.variant_caller.split(',').contains('deepvariant')) {
 
         /*
         * Call variants with deepvariant
@@ -88,7 +89,8 @@ workflow SHORT_VARIANT_CALLING {
         ch_short_calls_gvcf_tbi  = DEEPVARIANT_TABIX_GVCF.out.tbi
         ch_versions = ch_versions.mix(DEEPVARIANT_TABIX_VCF.out.versions)
 
-    } else if (params.variant_caller == 'clair3') {
+    }
+	if (params.variant_caller.split(',').contains('clair3')) {
 
         /*
         * Call variants with clair3
@@ -112,7 +114,8 @@ workflow SHORT_VARIANT_CALLING {
         // ch_short_calls_gvcf_tbi  = CLAIR3_TABIX_GVCF.out.tbi
         // ch_versions = ch_versions.mix(CLAIR3_TABIX_GVCF.out.versions)
 
-    } else {
+    } 
+	if (params.variant_caller.split(',').contains('pepper_margin_deepvariant')) {
 
         /*
          * Call variants with pepper_margin_deepvariant (automatic zip + index, docker + singularity only)
