@@ -78,14 +78,17 @@ if (params.call_variants) {
     if (params.protocol != 'DNA') {
         exit 1, "Invalid protocol option: ${params.protocol}. Valid options: 'DNA'"
     }
-    if (!params.skip_vc && !params.variant_caller.split(',').contains('medaka') && !params.variant_caller.split(',').contains('clair3') && !params.variant_caller.split(',').contains('deepvariant') && !params.variant_caller.split(',').contains('pepper_margin_deepvariant')) {
-        exit 1, "Invalid variant caller option: ${params.variant_caller}. Valid options: 'medaka', 'clair3', 'deepvariant' or 'pepper_margin_deepvariant'"
+    if (!params.skip_vc && !params.variant_caller.split(',').contains('medaka') && !params.variant_caller.split(',').contains('clair3') && !params.variant_caller.split(',').contains('clairs') && !params.variant_caller.split(',').contains('deepvariant') && !params.variant_caller.split(',').contains('pepper_margin_deepvariant')) {
+        exit 1, "Invalid variant caller option: ${params.variant_caller}. Valid options: 'medaka', 'clair3', 'clairs', 'deepvariant' or 'pepper_margin_deepvariant'"
     }
     if (!params.skip_sv && !params.structural_variant_caller.split(',').contains('sniffles') && !params.structural_variant_caller.split(',').contains('sniffles2') && !params.structural_variant_caller.split(',').contains('cutesv') && !params.structural_variant_caller.split(',').contains('dysgu') && !params.structural_variant_caller.split(',').contains('debreak')) {
         exit 1, "Invalid structural variant caller option: ${params.structural_variant_caller}. Valid options: 'sniffles', 'sniffles2', 'cutesv', 'dysgu', 'debreak'"
     }
     if (!params.skip_vc && params.enable_conda && !params.variant_caller.split(',').contains('medaka')) {
         exit 1, "Conda environments cannot be used when using the deepvariant or pepper_margin_deepvariant tools. Valid options: 'docker', 'singularity'"
+    }
+    if (!params.skip_vc && params.variant_caller.split(',').contains('clairs') && params.clairs_normbam == null) {
+        exit 1, "ClairS is a paired normal-tumor sample somatic variant caller. Please specify a normal bam file (clairs_normbam) that applies where all samples to be processes are considered tumor samples."
     }
 }
 

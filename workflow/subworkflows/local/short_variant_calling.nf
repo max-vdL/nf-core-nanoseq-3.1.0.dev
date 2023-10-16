@@ -2,7 +2,7 @@
  * Short variant calling test
  */
 
-include { MEDAKA_VARIANT                        } from '../../modules/local/medaka_variant'
+include { MEDAKA_VARIANT                        } from '../../modules/local/medaka_variant_v1.8.0'
 include { TABIX_BGZIP as MEDAKA_BGZIP_VCF       } from '../../modules/nf-core/tabix/bgzip/main'
 include { TABIX_BGZIP as MEDAKA_BGZIP_GVCF       } from '../../modules/nf-core/tabix/bgzip/main'
 include { TABIX_TABIX as MEDAKA_TABIX_VCF       } from '../../modules/nf-core/tabix/tabix/main'
@@ -12,6 +12,7 @@ include { TABIX_TABIX as DEEPVARIANT_TABIX_VCF  } from '../../modules/nf-core/ta
 include { TABIX_TABIX as DEEPVARIANT_TABIX_GVCF } from '../../modules/nf-core/tabix/tabix/main'
 include { PEPPER_MARGIN_DEEPVARIANT             } from '../../modules/local/pepper_margin_deepvariant'
 include { CLAIR3                                } from '../../modules/local/clair3'
+include { CLAIRS                                } from '../../modules/local/clairs'
 include { TABIX_TABIX as CLAIR3_TABIX_VCF  } from '../../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as CLAIR3_TABIX_GVCF } from '../../modules/nf-core/tabix/tabix/main'
 
@@ -115,6 +116,15 @@ workflow SHORT_VARIANT_CALLING {
         // ch_versions = ch_versions.mix(CLAIR3_TABIX_GVCF.out.versions)
 
     } 
+	if (params.variant_caller.split(',').contains('clairs')) {
+		channel.fromPath(params.clairs_normbam)
+			.map { file -> tuple(file, file + '.bai') }
+			.set { ch_clairs_normbam }        
+		CLAIRS( ch_view_sortbam, ch_clairs_normbam, ch_fasta, ch_fai )
+
+        ch_short_calls_vcf  = CLAIRS.out.vcf
+        ch_versions = ch_versions.mix(CLAIRS.out.versions)
+	}
 	if (params.variant_caller.split(',').contains('pepper_margin_deepvariant')) {
 
         /*

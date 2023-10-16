@@ -21,20 +21,19 @@ process MEDAKA_VARIANT {
     script:
     def split_mnps       =  params.split_mnps   ? "-l"                        : ''
     def phase_vcf        =  params.phase_vcf    ? "-p"                        : ''
-    def args = task.ext.args ?: ''
 
     output_dir = "${meta.id}"
     output_vcf = output_dir+"/round_1.vcf"
     """
 
     medaka_variant \\
+        -d \\
         -f $fasta \\
         -i $input \\
         -o $output_dir \\
         -t $task.cpus \\
         $split_mnps \\
-        $phase_vcf \\
-        $args
+        $phase_vcf
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

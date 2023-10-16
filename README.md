@@ -17,6 +17,7 @@
 The following optional additions have been made to the pipeline:
 
 - Multiple file input: A sample can now consist of multiple files of the same file type (e.g., fastq.gz) using wildcard paths.
+- Multiple variant callers can now be specified and are run in paralell.
 - Structural variant callers: The pipeline includes the following structural variant callers:
   - [Sniffles2](https://github.com/fritzsedlazeck/Sniffles)
   - [Dysgu](https://github.com/kcleal/dysgu)

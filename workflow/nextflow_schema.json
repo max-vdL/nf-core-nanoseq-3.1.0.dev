@@ -221,8 +221,8 @@
                     "type": "string",
                     "fa_icon": "fas fa-bezier-curve",
                     "description": "Tool(s) to use for single/small variant calling.",
-                    "help_text": "One or multiple tools separated with commas.\n\n**Variant Calling:**\n\nGermline variant calling can currently be performed with the following variant callers:\n- SNPs/Indels: medaka, clair3, deepvariant, and pepper_margin_deepvariant.\nVariant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Please note `deepvariant` and `pepper_margin_deepvariant` are only avaible if using singularity or docker.",
-                    "pattern": "^((medaka|clair3|deepvariant|pepper_margin_deepvariant)?,?)*(?<!,)$"
+                    "help_text": "One or multiple tools separated with commas.\n\n**Variant Calling:**\n\nGermline variant calling can currently be performed with the following variant callers:\n- SNPs/Indels: medaka, clair3, clairs, deepvariant, and pepper_margin_deepvariant.\nVariant calling is only available if '--call_variants' is set and the protocol is set to `DNA`. Please note `deepvariant` and `pepper_margin_deepvariant` are only avaible if using singularity or docker.",
+                    "pattern": "^((medaka|clair3|clairs|deepvariant|pepper_margin_deepvariant)?,?)*(?<!,)$"
                 },
                 "structural_variant_caller": {
                     "type": "string",
@@ -245,6 +245,12 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-exchange-alt",
                     "description": "Specifies if vcf will be phased when using medaka."
+                },
+                "clairs_normbam": {
+                    "type": "string",
+                    "fa_icon": "fas fa-exchange-alt",
+                    "description": "Necessary bam if ClairS is to be run.",
+                    "help_text": "It must be a sorted and indexed bam file that works as normal sample for the somatic mutation calling of all included samples. The .bai file has to be in the same directory."
                 },
                 "skip_vc": {
                     "type": "boolean",
