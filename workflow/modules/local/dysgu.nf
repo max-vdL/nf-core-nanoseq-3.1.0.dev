@@ -29,14 +29,18 @@ process DYSGU {
     task.ext.when == null || task.ext.when
 
     script:
+    def args = task.ext.args ?: ''
+
     """
-    dysgu call \
-		--mode nanopore \
-        -p $task.cpus \
-        -o ${meta.id}_dysgu.vcf \
-        ${fasta} \
-		\$PWD/tmp \
-		${input}
+    dysgu call \\
+        --mode nanopore \\
+        --pl nanopore \\
+        -p $task.cpus \\
+        -o ${meta.id}_dysgu.vcf \\
+        ${args} \\
+        ${fasta} \\
+        \$PWD/tmp \\
+        ${input} 
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -29,13 +29,15 @@ process DEBREAK {
     task.ext.when == null || task.ext.when
 
     script:
+    def args = task.ext.args ?: ''
+
     """
-    debreak \
-        -t $task.cpus \
-		--bam ${input} \
-        -o ${meta.id}_debreak \
-        -r ${fasta} \
-		--rescue_large_ins --rescue_dup --poa
+    debreak \\
+        -t $task.cpus \\
+        --bam ${input} \\
+        -o ${meta.id}_debreak \\
+        -r ${fasta} \\
+        ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

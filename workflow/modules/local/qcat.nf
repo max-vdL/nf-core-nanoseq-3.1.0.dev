@@ -33,6 +33,7 @@ process QCAT {
     -b ./fastq \\
     --kit $params.barcode_kit \\
     --min-score $params.qcat_min_score \\
+    -t $task.cpus \\
     $detect_middle
 
     ## Zip fastq files (cannot find pigz command)
