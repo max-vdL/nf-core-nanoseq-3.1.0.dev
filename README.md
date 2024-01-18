@@ -22,8 +22,10 @@ The following optional additions have been made to the pipeline:
   - [Sniffles2](https://github.com/fritzsedlazeck/Sniffles)
   - [Dysgu](https://github.com/kcleal/dysgu)
   - [DeBreak](https://github.com/Maggi-Chen/DeBreak)
-- SNP/INDEL caller: The pipeline includes the following SNP/INDEL caller:
-  - [Clair3](https://github.com/HKU-BAL/Clair3)
+- SNP/INDEL caller: The pipeline includes the following SNP/INDEL callers:
+  - [Clair3](https://github.com/HKU-BAL/Clair3) for ML based germline mutation calling
+  - [ClairS](https://github.com/HKU-BAL/ClairS) for ML based somatic mutation calling
+  - [Medaka-v1.8.0](https://github.com/nanoporetech/medaka/releases/tag/v1.8.0) for gvcf output which the implemented Medaka version can not provide
 - SNP variant calling postprocessing: The pipeline incorporates some functions from the [nanopanel2](https://github.com/popitsch/nanopanel2) pipeline for SNP variant calling postprocessing. The postprocessing steps include:
   - Mapping variants to a UCSC chromosome (e.g., hg38) if alignment was performed with an Ensembl transcript as the reference.
   - Annotation with [VEP](https://github.com/Ensembl/ensembl-vep).
