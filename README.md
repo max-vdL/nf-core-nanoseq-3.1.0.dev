@@ -22,16 +22,19 @@ The following optional additions have been made to the pipeline:
   - [Sniffles2](https://github.com/fritzsedlazeck/Sniffles)
   - [Dysgu](https://github.com/kcleal/dysgu)
   - [DeBreak](https://github.com/Maggi-Chen/DeBreak)
-- SNP/INDEL caller: The pipeline includes the following SNP/INDEL callers:
-  - [Clair3](https://github.com/HKU-BAL/Clair3) for ML based germline mutation calling
-  - [ClairS](https://github.com/HKU-BAL/ClairS) for ML based somatic mutation calling
-  - [Medaka-v1.8.0](https://github.com/nanoporetech/medaka/releases/tag/v1.8.0) for gvcf output which the implemented Medaka version can not provide
-- SNP variant calling postprocessing: The pipeline incorporates some functions from the [nanopanel2](https://github.com/popitsch/nanopanel2) pipeline for SNP variant calling postprocessing. The postprocessing steps include:
-  - Mapping variants to a UCSC chromosome (e.g., hg38) if alignment was performed with an Ensembl transcript as the reference.
-  - Annotation with [VEP](https://github.com/Ensembl/ensembl-vep).
-  - Transferral of variants into TSV and Excel formats.
-- Read depth analysis: The pipeline includes [Mosdepth](https://github.com/brentp/mosdepth) for read depth analysis in regions of interest.
+- Read depth analysis: The pipeline includes [Mosdepth](https://github.com/brentp/mosdepth) for read depth analysis in regions of interest. A custom module was created. 
+  - Connected to this is the custom module called gunzipmosdepth which unzips the mosdepth output. A custom module was created.
 - Custom read depth plotting module: A custom read depth plotting module called `coverageanalysis` has been added. Please note that this script functions only with its associated Singularity/Docker image (REF) and cannot be run in Conda mode. To specify regions of interest, provide a bed file.
+- SNP/INDEL caller: The pipeline includes the following SNP/INDEL callers:
+  - [Clair3](https://github.com/HKU-BAL/Clair3) for ML based germline mutation calling, used nf-core module.
+  - [ClairS](https://github.com/HKU-BAL/ClairS) for ML based somatic mutation calling, used nf-core module.
+  - [Medaka-v1.8.0](https://github.com/nanoporetech/medaka/releases/tag/v1.8.0) for gvcf output which the implemented Medaka version can not provide, created custom module.
+  - [Deepvariant-v1.5.0](https://github.com/google/deepvariant/releases/tag/v1.5.0)
+- SNP variant calling postprocessing: The pipeline incorporates some functions from the [nanopanel2](https://github.com/popitsch/nanopanel2) pipeline for SNP variant calling postprocessing. The postprocessing steps include:
+  - Mapping variants to a UCSC chromosome (e.g., hg38) if alignment was performed with an Ensembl transcript as the reference. The nf-core module mapvcf was used.
+  - Annotation with [VEP](https://github.com/Ensembl/ensembl-vep). Used the nf-core module variantannotation.
+  - Transferral of variants into TSV and Excel formats with custom module vep2table.
+- UMI handling with [umitools](https://github.com/CGATOxford/UMI-tools/releases/tag/1.1.4) dedup and extract: 
 
 ## nf-core/nanoseq Documentation
 For information on functionality, documentation and anything else taken over from nf-core nanoseq, please visit their [Github](https://github.com/nf-core/nanoseq/tree/3.1.0)

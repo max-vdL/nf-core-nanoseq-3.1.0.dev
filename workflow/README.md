@@ -32,8 +32,10 @@ On release, automated continuous integration tests run the pipeline on a [full-s
    - Convert SAM to co-ordinate sorted BAM and obtain mapping metrics ([`samtools`](http://www.htslib.org/doc/samtools.html))
 5. Create bigWig ([`BEDTools`](https://github.com/arq5x/bedtools2/), [`bedGraphToBigWig`](http://hgdownload.soe.ucsc.edu/admin/exe/)) and bigBed ([`BEDTools`](https://github.com/arq5x/bedtools2/), [`bedToBigBed`](http://hgdownload.soe.ucsc.edu/admin/exe/)) coverage tracks for visualisation
 6. DNA specific downstream analysis:
-   - Short variant calling ([`medaka`](https://github.com/nanoporetech/medaka), [`deepvariant`](https://github.com/google/deepvariant), or [`pepper_margin_deepvariant`](https://github.com/kishwarshafin/pepper))
-   - Structural variant calling ([`sniffles`](https://github.com/fritzsedlazeck/Sniffles) or [`cutesv`](https://github.com/tjiangHIT/cuteSV))
+   - Short variant calling ([`medaka`](https://github.com/nanoporetech/medaka), [`deepvariant`](https://github.com/google/deepvariant), [`pepper_margin_deepvariant`](https://github.com/kishwarshafin/pepper), [Clair3](https://github.com/HKU-BAL/Clair3), or [ClairS](https://github.com/HKU-BAL/ClairS))
+   - Structural variant calling ([`sniffles`](https://github.com/fritzsedlazeck/Sniffles), [Sniffles2](https://github.com/fritzsedlazeck/Sniffles), [Dysgu](https://github.com/kcleal/dysgu), [DeBreak](https://github.com/Maggi-Chen/DeBreak) or [`cutesv`](https://github.com/tjiangHIT/cuteSV))
+   - Coverage analysis on regions of interest with [Mosdepth](https://github.com/brentp/mosdepth)
+   - VCF postprocessing incorporated from [nanopanel2](https://github.com/popitsch/nanopanel2)
 7. RNA specific downstream analysis:
    - Transcript reconstruction and quantification ([`bambu`](https://bioconductor.org/packages/release/bioc/html/bambu.html) or [`StringTie2`](https://ccb.jhu.edu/software/stringtie/))
      - bambu performs both transcript reconstruction and quantification
@@ -48,7 +50,7 @@ On release, automated continuous integration tests run the pipeline on a [full-s
 A graphical overview of suggested routes through the pipeline depending on the desired output can be seen below.
 
 <p align="center">
-    <img src="docs/images/nanoseq_subwaymap_v3.1.png" alt="nf-core/nanoseq metro map" width="90%"
+    <img src="docs/images/nanoseq-dev_subway.png" alt="nf-core/nanoseq metro map" width="90%"
 </p>
 
 ## Quick Start
